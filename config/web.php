@@ -28,7 +28,11 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            // 'enableAutoLogin' => true,   //  [2019 june 13]
+            //  ==========  ADDED BY AJENG [2019 june 9]    ==========
+            'enableSession' => false,
+            'loginUrl' => null,
+            //  ==========
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
