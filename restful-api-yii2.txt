@@ -1,0 +1,125 @@
+==========	RESTFUL WEBSERVICE (YII2)	==========
+
+
+Prereq	:	
+-	download and install composer
+-	download and install yii2 basic
+
+
+Step 1	-	Prepare database
+	tbl_restaurant_catering	:	storing list restaurant catering
+	tbl_user	:	user table
+
+
+Step 2	-	Generate models by choose database table
+	ActiveRecord helps us to get and store data from database table
+	-	path : app/models/RestaurantCatering.php
+	
+
+Step 3	-	Generate CRUD
+	-	model class : app\models\RestaurantCatering.php
+	-	search model class : app\models\RestaurantCateringSearch.php
+	-	controller class : app\controllers\RestaurantCateringController.php
+	-	base controller class : yii\web\controller.php
+	will generate
+	+	controllers\RestaurantCateringController.php
+	+	models\RestaurantCateringSearch.php
+	+	views\restaurant-catering\_form.php
+	+	views\restaurant-catering\_search.php
+	+	views\restaurant-catering\create.php
+	+	views\restaurant-catering\index.php
+	+	views\restaurant-catering\update.php
+	+	views\restaurant-catering\delete.php
+	
+	
+Step 4	-	Generate module
+	-	module class : app\modules\api\ApiModule
+	-	module id : api
+	will generate
+	+	modules\api\ApiModule.php
+	+	modules\api\controllers\DefaultController.php
+	+	modules\api\views\default\index.php
+	place this code after params [app\config\web]
+	<?php
+		....
+		'modules' => [
+			'api' => [
+				'class' => 'app\modules\api\ApiModule',
+			],
+		],
+		....
+	?>
+	
+	
+Step 5	-	Click try now
+	directed to api/default/index
+
+
+Step 6	-	Edit SiteController
+	\app\controllers\SiteController.php
+	place this code
+	<?php
+		....
+		public function actionFeed()
+		{
+			return $this->render('feed');
+		}
+		....
+	?>
+	
+	
+Step 7	-	Create feed.php
+	\app\views\site\feed.php
+	<?php
+
+	/* @var $this yii\web\View */
+
+		$this->title = 'Welcome';
+	?>
+	<div class="site-index">
+		<div class="body-content">
+			<h1>Restaurant Catering API</h1>
+		</div>
+	</div>
+	
+	
+Step 8	-	Edit DefaultController.php
+	\app\modules\api\controllers\DefaultController.php
+	place this code
+	<?php
+
+		namespace app\modules\api\controllers;
+
+		use yii\rest\ActiveController;
+
+		class DefaultController extends ActiveController
+		{
+			//  ==========  ADDED BY AJENG [2019 june 7]    ==========
+			public $modelClass = 'app\models\RestaurantCatering';
+		}
+	?>
+	
+	
+Step 9	-	Edit UrlManager
+	\app\config\web.php
+	place this code
+	<?php
+		....
+		'urlManager' => [
+				'enablePrettyUrl' => true,
+				'showScriptName' => false,
+				'rules' => [
+					['class' => 'yii\rest\UrlRule', 'pluralize' => false, 'controller' => 'api/default']
+				],
+			],
+		....
+	?>
+	
+	
+Step 10	-	Test access /api/default
+	using postman
+	http://localhost/rest-api/rc-webservice/web/api/default
+	
+	
+	
+	
